@@ -4,7 +4,7 @@ import EventDetailedInfo from './EventDetailedInfo'
 import EventDetailedChat from './EventDetailedChat'
 import EventDetailedSidebar from './EventDetailedSidebar'
 import { Grid } from 'semantic-ui-react'
-import connect from 'react-redux'
+import { connect } from 'react-redux'
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
