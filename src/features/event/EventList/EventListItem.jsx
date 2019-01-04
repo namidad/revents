@@ -6,7 +6,7 @@ import EventListAttendee from './EventListAttendee'
 class EventListItem extends Component {
   render() {
 
-    const {event, onEventOpen, deleteEvents} = this.props;
+    const {event, deleteEvents} = this.props;
 
     return (
       <div>
