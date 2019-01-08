@@ -7,9 +7,9 @@ import {reduxForm, Field} from 'redux-form'
 import TextInput from '../../../app/common/form/TextInput'
 import TextArea from '../../../app/common/form/TextArea'
 import SelectInput from '../../../app/common/form/SelectInput'
+import DateInput from '../../../app/common/form/DateInput'
 import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan} from 'revalidate'
-import { compose } from 'redux';
-
+import moment from 'moment'
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -45,13 +45,15 @@ const validate = combineValidators({
     hasLengthGreaterThan(4)({message: 'Description needs to be at least 5 characters'})
   )(),
   city: isRequired('city'),
-  venue: isRequired('venue')
+  venue: isRequired('venue'),
+  date: isRequired('date')
 });
 
 class EventForm extends Component {
-
-
   onFormSubmit = values => {
+
+    values.date=moment(values.date).format();
+
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
       this.props.history.goBack();
@@ -76,14 +78,14 @@ class EventForm extends Component {
         <Grid.Column width={10}>
           <Segment>
             <Header sub color='teal' content='Event Details' />
-            <Form onSubmit={this.props.handleSumbit(this.onFormSubmit)}>
+            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
               <Field name='title' type='text' component={TextInput} placeholder ='Give your event a name'/>
               <Field name='category' type='text' component={SelectInput} options={category} placeholder ='What is your event about?'/>
               <Field name='description' type='text' rows={3} component={TextArea} placeholder ='Tell us about your event'/>
               <Header sub color='teal' content='Event Location Details' />
               <Field name='city' type='text' component={TextInput} placeholder ='Event city'/>
               <Field name='venue' type='text' component={TextInput} placeholder ='Event venue'/>
-              <Field name='date' type='text' component={TextInput} placeholder ='Event Date'/>
+              <Field name='date' type='text' component={DateInput} dateFormat='YYYY-MM-DD HH:mm' timeFormat="HH:mm" showTimeSelect placeholder ='Date and Time of event'/>
               <Button disabled={ invalid || submitting || pristine } positive type="submit">
                 Submit
               </Button>
